@@ -14,17 +14,11 @@ class Team:
 
     def get_next(self):
         current_day = datetime.now(pytz.utc).strftime("%Y-%m-%d")
-        # print(current_day)
         url = "https://statsapi.web.nhl.com/api/v1/schedule?teamId={0}&startDate={1}".format(self.team, current_day)
-        # print(url)
         json = url_json.url_json(url)
         game_id = json["dates"][0]["games"][0]["gamePk"]
-        print(game_id)
-        # print(json["dates"][0]["games"][0]["teams"]["home"]["team"]["id"])
         home = json["dates"][0]["games"][0]["teams"]["home"]["team"]["id"] == 3
-        # print(game_id)
         game_state = int(json["dates"][0]["games"][0]["status"]["codedGameState"])
-        # print("Game.py state: " + str(game_state))
         if game_state < 5:
             if game_state > 2:
                 self.playing = True

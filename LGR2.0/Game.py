@@ -22,28 +22,21 @@ class Game:
         self.away = self.linescore["teams"]["away"]["team"]["name"]
         if self.home == "New York Rangers":
             self.is_home = True
-        # print(self.home + self.away)
-
-        # print(self.last_time + self.day)
 
     def game_update(self):
         # gets object of changes to game
         url = "https://statsapi.web.nhl.com/api/v1/game/{0}/feed/live/diffPatch?startTimecode={1}_{2}" \
             .format(self.team, self.day, self.last_time)
         current_game = url_json.url_json(url)
-        #print(current_game)
         self.update_comp_time()
 
     def update_comp_time(self):
         day = datetime.now(pytz.utc)
         self.day = day.strftime("%Y%m%d")
         self.last_time = day.strftime("%H%M%S")
-        #print("here")
-        #print(self.last_time + self.day)
 
     def get_game_id(self):
         url = "https://statsapi.web.nhl.com/api/v1/schedule?teamId={0}".format(self.id)
-        #print(url)
         current_game = url_json.url_json(url)
         self.id = current_game["dates"][0]["games"][0]["gamePk"]
 
